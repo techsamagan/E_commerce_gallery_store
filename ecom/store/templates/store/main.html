@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Ecom</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+    <script type="text/javascript">
+        var user = '{{request.user|escapejs}}';
+
+        function getToken(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken');
+
+        function getCookie(name) {
+            var cookieArr = document.cookie.split(";");
+            for (var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+                if (name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        var cart = JSON.parse(getCookie('cart'));
+
+        if (cart == undefined) {
+            cart = {};
+            console.log('Cart Created!', cart);
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/";
+        }
+        console.log('Cart:', cart);
+    </script>
+
+    <style>
+        .navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .navbar-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .navbar-center .nav-link {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'store' %}">Logo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'store' %}">Store <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'about' %}">About <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <div class="navbar-center">
+                <div class="nav-link">Sadyk Murzakhanov - official gallery + store</div>
+            </div>
+            <div class="form-inline my-2 my-lg-0">
+                <a href="{% url 'cart' %}">
+                    <img id="cart-icon" src="{% static 'images/cart.png' %}">
+                </a>
+                <p id="cart-total">{{ cartItems }}</p>
+            </div>
+            
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <br>
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+
+ 
+    <div class="subscription-form">
+        <h4>Masterclasses and events: be the first to know</h4>
+        <p>I am building a community of people who are interested in my art. Join my monthly newsletter to stay updated on my latest works, workshops, and masterclasses.</p>
+        <form id="subscription-form" action="{% url 'subscribe' %}" method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Your email" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+            <div id="message"></div>
+        </form>
+    </div>
+
+
+            
+    <style>
+        .subscription-form {
+            background-color: hsl(210, 100%, 95%); /* Match the store background color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .subscription-form h4 {
+            margin-bottom: 10px;
+        }
+        .subscription-form p {
+            margin-bottom: 20px;
+        }
+        .subscription-form form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .subscription-form input[type="email"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            width: 300px;
+        }
+        .subscription-form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .subscription-form button:hover {
+            background-color: #0056b3;
+        }
+        
+        
+    </style>
+
+ 
+
+    <footer>
+        <div class="footer-content">
+            <div class="left-section">
+                <img src="{% static 'images/logos/logo.png' %}" alt="Logo" class="footer-logo">
+                <a href="{% url 'privacy-policy' %}">Privacy Policy</a>
+                <p>&copy; 2024 sadykmurzakhanov.com</p>
+            </div>
+            <div class="right-section">
+                <a href="https://www.instagram.com/sadykmurzahanov/" target="_blank"><img src="{% static 'images/logos/instagram-icon.png' %}" alt="Instagram"></a>
+                <a href="https://www.youtube.com/@user-mv1nu6ol5o/videos" target="_blank"><img src="{% static 'images/logos/youtube-icon.png' %}" alt="YouTube"></a>
+                <a href="https://www.facebook.com" target="_blank"><img src="{% static 'images/logos/facebook-icon.png' %}" alt="Facebook"></a>
+                <p>Made by Samagan Nurdinov</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>    
+    <script>
+    $(document).ready(function() {
+        $('#subscription-form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#message').text(response.message);
+                    $('#message').addClass('alert alert-success');
+                },
+                error: function(xhr) {
+                    $('#message').text(JSON.parse(xhr.responseText).message);
+                    $('#message').addClass('alert alert-danger');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

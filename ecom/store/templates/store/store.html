@@ -1,0 +1,46 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    {% for product in products %}
+    <div class="col-lg-4">
+        <div class="box-element product">
+            <img class="thumbnail" src="{{product.imageURL}}" alt="{{product.name}}">
+            <br>
+            <h5><strong>{{product.name}}</strong></h5>
+            <p><strong>Size:</strong> {{ product.size }}</p>
+            <hr>
+            <button id="add-to-cart-{{product.id}}" data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+
+            <a class="btn btn-outline-success" href="{% url 'product_detail' product.id %}">View</a>
+            <h4 style="display: inline-block; float: right"><strong>${{product.price}}</strong></h4>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var buttons = document.querySelectorAll('.update-cart');
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var productId = this.getAttribute('data-product');
+                var action = this.getAttribute('data-action');
+
+                // Make the button unclickable immediately
+                this.disabled = true;
+                this.textContent = 'Added to Cart';
+                this.classList.add('disabled');
+
+                // Optionally, you can add the code to handle the cart update here
+                // For example, send an AJAX request to update the cart
+                // ...
+
+            });
+        });
+    });
+</script>
+
+{% endblock %}

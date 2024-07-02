@@ -1,0 +1,134 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Sadyk Murzhakanov</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="about-section">
+        <div class="container">
+            <h1>About Sadyk Murzhakanov</h1>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Sadyk Murzhakanov is an accomplished artist specializing in still life and portrait painting. His work captures the beauty and intricacies of everyday life and human expression. Sadyk has participated in numerous national and international seminars and auctions, showcasing his talent to a global audience.</p>
+                    <p>With a keen eye for detail and a passion for capturing the essence of his subjects, Sadyk's paintings are known for their vivid realism and emotional depth. His contributions to the art community have earned him a reputation as a respected and influential artist.</p>
+                </div>
+                <div class="about-photo">
+                    <img src="{% static 'images/artist/photo1.jpg'%}" alt="Sadyk Murzhakanov">
+                </div>
+            </div>
+            <div class="awards-section">
+                <h2>Awards and Recognitions</h2>
+                <ul>
+                    <li>First Prize at National Art Competition, 2021</li>
+                    <li>Best Still Life Painting at International Art Expo, 2020</li>
+                    <li>Artist of the Year, National Art Association, 2019</li>
+                    <li>Gold Medal at International Art Seminar, 2018</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: hsl(210, 100%, 95%);
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.about-section {
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    padding: 60px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.about-section h1 {
+    text-align: center;
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: hsl(210, 100%, 20%);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.about-text {
+    max-width: 55%;
+    line-height: 1.8;
+    font-size: 1.2em;
+    color: #495057;
+}
+
+.about-photo {
+    max-width: 40%;
+    text-align: center;
+}
+
+.about-photo img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #dee2e6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.awards-section {
+    margin-top: 40px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.awards-section h2 {
+    font-size: 2em;
+    text-align: center;
+    color: hsl(210, 100%, 20%);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.awards-section ul {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.awards-section ul li {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #495057;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+</style>
+</html>
+
+
+
+{% endblock %}

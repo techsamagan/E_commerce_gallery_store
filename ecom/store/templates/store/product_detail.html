@@ -1,0 +1,94 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.imageURL }}" class="img-fluid" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-6">
+            <h3>{{ product.name }}</h3>
+            <h4>${{ product.price }}</h4>
+            <p><strong>Description:</strong> {{ product.description }}</p>
+            <p><strong>Size:</strong> {{ product.size }}</p>
+            <hr>
+            
+            <button id="add-to-cart-{{product.id}}" data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+            
+            <a class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Back to Store</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var buttons = document.querySelectorAll('.update-cart');
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var productId = this.getAttribute('data-product');
+                var action = this.getAttribute('data-action');
+
+                // Make the button unclickable immediately
+                this.disabled = true;
+                this.textContent = 'Added to Cart';
+                this.classList.add('disabled');
+
+                updateUserOrder(productId, action);
+            });
+        });
+    });
+
+    function updateUserOrder(productId, action) {
+        console.log('Updating cart...');
+
+        var url = '/update-cart/';
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({'productId': productId, 'action': action})
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // Optionally, reload the page or update cart details dynamically
+            location.reload();  // Reload the entire page to refresh the state
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+    function refreshPage(){
+        location.reload();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var buttons = document.querySelectorAll('.update-cart');
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var productId = this.getAttribute('data-product');
+                var action = this.getAttribute('data-action');
+
+                // Make the button unclickable immediately
+                this.disabled = true;
+                this.textContent = 'Added to Cart';
+                this.classList.add('disabled');
+
+                // Optionally, you can add the code to handle the cart update here
+                // For example, send an AJAX request to update the cart
+                // ...
+
+            });
+        });
+    });
+
+</script>
+{% endblock scripts %}
